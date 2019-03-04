@@ -35,8 +35,67 @@ def matriz_adj(g):
     return tuple(matrix)
 
 # EJERCICIO 3: Arboles binarios
+
+class BinaryTree:
+    def __init__(self): self.tree = EmptyNode()
+    def __repr__(self): return '{}'.format(self.tree)
+    def insert(self, value): self.tree = self.tree.insert(value)
+
+class EmptyNode:
+    def __repr__(self):
+        return 'None'
+    def insert(self,value):
+        return BinaryNode(value, self, self)
+
+class BinaryNode:
+    def __init__(self, value, left, right):
+        self.data, self.left, self.right = value, left, right
+
+    def insert(self, value):
+        if self.data > value:
+            self.left = self.left.insert(value)
+        elif self.data < value:
+            self.right = self.right.insert(value)
+        return self
+
+    def __repr__(self):
+        return '({}, {}, {})'.format(self.data, self.left, self.right )
+
+def arbol_binario(L):
+    x = BinaryTree()
+    for i in L:
+        x.insert(i)
+    return x
+
+
 # EJERCICIO 4: Búsqueda en arbol
+
+def buscar(arbol, valor):
+    while(arbol != None):
+        arbol = list(arbol)
+        if(arbol[0] == valor):
+            return True
+        else:
+            
+            if arbol[0] >= valor:
+                arbol = arbol[1]
+            else: 
+                arbol = arbol[2]
+    return False
+
 # EJERCICIO 5: Árbol a conjunto
+
+def mezcla(A,B):
+    C = dict()
+    for key, value in A.items():
+        C[key]=value
+    for key, value in B.items():
+        if key in C:
+            C[key] = (C[key], value)
+        else:
+            C[key]=value        
+    return C
+
 # EJERCICIO 6: Mezcla de diccionarios
 # EJERCICIO 7: Busqueda de ciclos
 
@@ -119,6 +178,38 @@ def presente_indicativo(verbo):
         return result
 
 # EJERCICIO 9: Cuartiles
+
+def cuartiles(L):
+    L = list(L)
+    L.sort()
+    Q1 = 0
+    posQ1 = (len(L)+1)/float(4) 
+    decimal = posQ1 - int(posQ1)
+    if decimal > 0:
+        Q1 = L[int(posQ1)-1] + decimal*(L[int(posQ1)]-L[int(posQ1)-1])
+    else:
+        Q1 = L[int(posQ1)-1]
+
+    Q2 = 0
+    posQ2 = 2*(len(L)+1)/float(4) 
+    decimal = posQ2 - int(posQ2)
+    if decimal > 0:
+        Q2 = L[int(posQ2)-1] + decimal*(L[int(posQ2)]-L[int(posQ2)-1])
+    else:
+        Q2 = L[int(posQ2)-1]
+
+    Q3 = 0
+    posQ3 = 3*(len(L)+1)/float(4) 
+    decimal = posQ3 - int(posQ3)
+    if decimal > 0:
+        Q3 = L[int(posQ3)-1] + decimal*(L[int(posQ3)]-L[int(posQ3)-1])
+    else:
+        Q3 = L[int(posQ3)-1]
+
+    Q4 = L[-1]
+
+    return (Q1, Q2, Q3, Q4)
+
 # EJERCICIO 10: Cambio de notación de RPN a notación algebraica
 OPERATORS = set(['+', '-', '*', '/', '(', ')'])
 PRIORITY = {'+':1, '-':1, '*':2, '/':2}
@@ -168,14 +259,14 @@ class Test(TestCase):
     #                      (4, (3, (2, (1, (0, None, None), None), None), None), None))
     #     self.assertEqual(arbol_binario([]), None)
 
-    # def test_buscar(self):
-    #     self.assertTrue(buscar((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))),
-    #                            13))
-    #     self.assertFalse(buscar((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))),
-    #                             12))
-    #     self.assertTrue(buscar((4, (3, (2, (1, (0, None, None), None), None), None), None),
-    #                            0))
-    #     self.assertFalse(buscar(None, 0))
+    def test_buscar(self):
+        self.assertTrue(buscar((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))),
+                               13))
+        self.assertFalse(buscar((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))),
+                                12))
+        self.assertTrue(buscar((4, (3, (2, (1, (0, None, None), None), None), None), None),
+                               0))
+        self.assertFalse(buscar(None, 0))
 
     # def test_arbol_a_conjunto(self):
     #     self.assertEqual(arbol_a_conjunto(None), set())
@@ -185,11 +276,11 @@ class Test(TestCase):
     #     self.assertEqual(arbol_a_conjunto((4, (3, (2, (1, (0, None, None), None), None), None), None)),
     #                      {0,1,2,3,4})
 
-    # def test_mezcla(self):
-    #     self.assertEqual(mezcla({'a':1}, {'b':2}), {'a':1,'b':2})
-    #     self.assertEqual(mezcla({'a':1,'e':2}, {'a':1,'b':2}), {'a':(1,1),'b':2,'e':2})
-    #     self.assertEqual(mezcla({}, {}), {})
-    #     self.assertEqual(mezcla({1:2,2:3,3:4}, {1:1,2:2,3:3}), {1:(2,1),2:(3,2),3:(4,3)})
+    def test_mezcla(self):
+        self.assertEqual(mezcla({'a':1}, {'b':2}), {'a':1,'b':2})
+        self.assertEqual(mezcla({'a':1,'e':2}, {'a':1,'b':2}), {'a':(1,1),'b':2,'e':2})
+        self.assertEqual(mezcla({}, {}), {})
+        self.assertEqual(mezcla({1:2,2:3,3:4}, {1:1,2:2,3:3}), {1:(2,1),2:(3,2),3:(4,3)})
 
     def test_hay_ciclo(self):
         self.assertTrue(hay_ciclo([(1,1)]))
@@ -207,12 +298,12 @@ class Test(TestCase):
         self.assertEqual(presente_indicativo('ir'),
                          ['o', 'es', 'e', 'imos', 'ís', 'en'])
 
-    # def test_cuartiles(self):
-    #     self.assertEqual(cuartiles((63,34,60,30,45,32,56,40,21,37,54,33,28,53,19,45,28,52,24,29)),
-    #                      (28.25, 35.5, 52.75, 63))
-    #     self.assertEqual(cuartiles(range(10)), (1.75, 4.5, 7.25, 9))
-    #     self.assertEqual(cuartiles((1,2,3)), (1,2,3,3))
-    #     self.assertEqual(cuartiles((1,1,1)), (1,1,1,1))
+    def test_cuartiles(self):
+        self.assertEqual(cuartiles((63,34,60,30,45,32,56,40,21,37,54,33,28,53,19,45,28,52,24,29)),
+                         (28.25, 35.5, 52.75, 63))
+        self.assertEqual(cuartiles(range(10)), (1.75, 4.5, 7.25, 9))
+        self.assertEqual(cuartiles((1,2,3)), (1,2,3,3))
+        self.assertEqual(cuartiles((1,1,1)), (1,1,1,1))
 
     def test_rpn_to_algebraic(self):        
         self.assertEqual(rpn_to_algebraic('12 3 - 2 5 * +'), '((12 - 3) + (2 * 5))')

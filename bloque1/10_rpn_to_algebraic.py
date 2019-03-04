@@ -20,5 +20,5 @@ def postfix_to_infix(formula):
     return stack[-1]
 
 
-if __name__ == '__main__':
-    postfix_to_infix('1')
+# if __name__ == '__main__':
+#     postfix_to_infix('1')
