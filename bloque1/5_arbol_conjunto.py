@@ -1,12 +1,29 @@
-def buscar(self, prev_data = []):
-    if self._children:
-        child_data = []
-        for child in self.children:
-            child_data.extend(child.tree2list(prev_data + self._data))
-        return child_data
-    else:
-        return [prev_data + self._data]
+def arbol_a_conjunto(arbol):
+    paso1 = str(tree).split('(')
+    paso2 = list()
+    for node in paso1:
+        for v in node.split(')'):
+            paso2.append(v)
+    paso3 = list()
+    for node in paso2:
+        for v in node.split(','):
+            paso3.append(v)
+    paso4 = list()
+    for node in paso3:
+        for v in node.split('None'):
+            paso4.append(v)
+    paso5 = list()
+    for node in paso4:
+        for v in node.split(' '):
+            paso5.append(v) 
+    
+    result = set()
+    for v in paso5:
+        if v != '':
+            result.add(int(v))
+    return result        
 
-tree = (3, (1, None, None), (8, None, (13, (9, None, None), None)))
+tree = (3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None)))
 
-print (buscar(tree))
+
+print (arbol_a_conjunto(tree))

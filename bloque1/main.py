@@ -84,6 +84,33 @@ def buscar(arbol, valor):
     return False
 
 # EJERCICIO 5: Árbol a conjunto
+def arbol_a_conjunto(arbol):
+    paso1 = str(arbol).split('(')
+    paso2 = list()
+    for node in paso1:
+        for v in node.split(')'):
+            paso2.append(v)
+    paso3 = list()
+    for node in paso2:
+        for v in node.split(','):
+            paso3.append(v)
+    paso4 = list()
+    for node in paso3:
+        for v in node.split('None'):
+            paso4.append(v)
+    paso5 = list()
+    for node in paso4:
+        for v in node.split(' '):
+            paso5.append(v) 
+    result = set()
+    for v in paso5:
+        if v != '':
+            result.add(int(v))
+    return result   
+
+
+
+# EJERCICIO 6: Mezcla de diccionarios
 
 def mezcla(A,B):
     C = dict()
@@ -96,7 +123,6 @@ def mezcla(A,B):
             C[key]=value        
     return C
 
-# EJERCICIO 6: Mezcla de diccionarios
 # EJERCICIO 7: Busqueda de ciclos
 
 from collections import defaultdict
@@ -268,13 +294,13 @@ class Test(TestCase):
                                0))
         self.assertFalse(buscar(None, 0))
 
-    # def test_arbol_a_conjunto(self):
-    #     self.assertEqual(arbol_a_conjunto(None), set())
-    #     self.assertEqual(arbol_a_conjunto((5,None,None)), {5})
-    #     self.assertEqual(arbol_a_conjunto((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None)))),
-    #                      {3,8,1,13,5,9})
-    #     self.assertEqual(arbol_a_conjunto((4, (3, (2, (1, (0, None, None), None), None), None), None)),
-    #                      {0,1,2,3,4})
+    def test_arbol_a_conjunto(self):
+        self.assertEqual(arbol_a_conjunto(None), set())
+        self.assertEqual(arbol_a_conjunto((5,None,None)), {5})
+        self.assertEqual(arbol_a_conjunto((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None)))),
+                         {3,8,1,13,5,9})
+        self.assertEqual(arbol_a_conjunto((4, (3, (2, (1, (0, None, None), None), None), None), None)),
+                         {0,1,2,3,4})
 
     def test_mezcla(self):
         self.assertEqual(mezcla({'a':1}, {'b':2}), {'a':1,'b':2})

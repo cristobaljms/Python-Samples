@@ -1,3 +1,4 @@
+
 class BinaryTree:
     def __init__(self): self.tree = EmptyNode()
     def __repr__(self): return '{}'.format(self.tree)
@@ -5,7 +6,7 @@ class BinaryTree:
 
 class EmptyNode:
     def __repr__(self):
-        return 'None'
+        return None
     def insert(self,value):
         return BinaryNode(value, self, self)
 
