@@ -38,12 +38,12 @@ def matriz_adj(g):
 
 class BinaryTree:
     def __init__(self): self.tree = EmptyNode()
-    def __repr__(self): return '{}'.format(self.tree)
+    def getTree(self) : return self.tree.getNode()
     def insert(self, value): self.tree = self.tree.insert(value)
 
 class EmptyNode:
-    def __repr__(self):
-        return 'None'
+    def getNode(self):
+        return None
     def insert(self,value):
         return BinaryNode(value, self, self)
 
@@ -58,14 +58,13 @@ class BinaryNode:
             self.right = self.right.insert(value)
         return self
 
-    def __repr__(self):
-        return '({}, {}, {})'.format(self.data, self.left, self.right )
+    def getNode(self): return (self.data, self.left.getNode(), self.right.getNode() )
 
 def arbol_binario(L):
     x = BinaryTree()
     for i in L:
         x.insert(i)
-    return x
+    return x.getTree()
 
 
 # EJERCICIO 4: Búsqueda en arbol
@@ -276,14 +275,14 @@ class Test(TestCase):
         self.assertEqual(matriz_adj([(5,1), (4,2)]),
                          ((0,0,0,1), (0,0,1,0), (0,0,0,0), (0,0,0,0)))
 
-    # def test_arbol_binario(self):
-    #     self.assertEqual(arbol_binario([3, 8, 1, 13, 5, 9]),
-    #                      (3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))))
-    #     self.assertEqual(arbol_binario(range(5)),
-    #                      (0, None, (1, None, (2, None, (3, None, (4, None, None))))))
-    #     self.assertEqual(arbol_binario(list(reversed(range(5)))),
-    #                      (4, (3, (2, (1, (0, None, None), None), None), None), None))
-    #     self.assertEqual(arbol_binario([]), None)
+    def test_arbol_binario(self):
+        self.assertEqual(arbol_binario([3, 8, 1, 13, 5, 9]),
+                         (3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))))
+        self.assertEqual(arbol_binario(range(5)),
+                         (0, None, (1, None, (2, None, (3, None, (4, None, None))))))
+        self.assertEqual(arbol_binario(list(reversed(range(5)))),
+                         (4, (3, (2, (1, (0, None, None), None), None), None), None))
+        self.assertEqual(arbol_binario([]), None)
 
     def test_buscar(self):
         self.assertTrue(buscar((3, (1, None, None), (8, (5, None, None), (13, (9, None, None), None))),

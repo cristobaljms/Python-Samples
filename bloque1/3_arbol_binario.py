@@ -1,11 +1,11 @@
 
 class BinaryTree:
     def __init__(self): self.tree = EmptyNode()
-    def __repr__(self): return '{}'.format(self.tree)
+    def getTree(self) : return self.tree.getNode()
     def insert(self, value): self.tree = self.tree.insert(value)
 
 class EmptyNode:
-    def __repr__(self):
+    def getNode(self):
         return None
     def insert(self,value):
         return BinaryNode(value, self, self)
@@ -21,14 +21,13 @@ class BinaryNode:
             self.right = self.right.insert(value)
         return self
 
-    def __repr__(self):
-        return '({}, {}, {})'.format(self.data, self.left, self.right )
+    def getNode(self): return (self.data, self.left.getNode(), self.right.getNode() )
 
 def arbol_binario(L):
     x = BinaryTree()
     for i in L:
         x.insert(i)
-    return x
+    return x.getTree()
 
 L = [3, 8, 1, 13, 5, 9]
 print(arbol_binario(L))
